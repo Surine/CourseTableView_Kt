@@ -1,0 +1,3 @@
+include ':coursetableview_kt'
+include ':app'
+rootProject.name = "CourseTableView_Kt"
