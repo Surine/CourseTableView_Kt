@@ -46,6 +46,9 @@ class CourseTableView @JvmOverloads constructor(
         const val NORMAL = "NORMAL"
         const val CUR_WEEK = "CUR_WEEK"
         const val NOT_CUR_WEEK = "NOT_CUR_WEEK"
+
+        const val NORMAL_SELECT_COLOR = "#4D64E6D7"
+        const val NOR_CUR_WEEK_COLOR = "#8BBCBCBC"
     }
 
     private lateinit var curTermStartDate: String
@@ -53,7 +56,8 @@ class CourseTableView @JvmOverloads constructor(
     private lateinit var bTimeTable: BTimeTable
     var totalSession = 12
         set(value) {
-            if (value > 24) {
+            //300: for more interesting functions
+            if (value > 300) {
                 throw IllegalArgumentException("max session is less than 24")
             }
             field = value
@@ -77,6 +81,9 @@ class CourseTableView @JvmOverloads constructor(
     var sessionSlotWidth: Int = 70   //Mainly used for auxiliary calculation
     var sessionSlotHeight: Int = 200
     var sessionSlotTopMargin = 3
+    var sessionSlotStrokeWidth = 3
+    var sessionSlotStrokeColor = Color.WHITE
+    var sessionSlotRadius = 20
     var sessionSlotCurWeekTextColor = Color.WHITE
     var sessionSlotNotCurWeekTextColor = Color.BLACK
     var isShowTimeTable = true
@@ -94,8 +101,6 @@ class CourseTableView @JvmOverloads constructor(
             }
         }
 
-    private var isSectionViewInit: Boolean = false
-    private var isFirstLoad = false
     private val dayPanelList = mutableListOf<LinearLayout>()
     private val normalItemReferenceMap = HashMap<String, View>()
     private val normalSelectItemReferenceMap = HashMap<String, View>()
@@ -113,9 +118,9 @@ class CourseTableView @JvmOverloads constructor(
                 weekPanel_7
             )
         )
-        //fill with empty data
     }
 
+    //jump
     fun toWeek(curWeek: Int) {
         this.curConfigWeek = curWeek
         render()
@@ -153,26 +158,15 @@ class CourseTableView @JvmOverloads constructor(
 
 
     private fun render() {
-        //init the section view : if the section view is not init
+        //init the section view
         initSectionView()
-
         //init the week panel
         initWeekPanelView()
-
         //init the normal item panel
         initNormalItemPanel()
-
         //init the course info
         initCourseInfo()
-
-        isFirstLoad = true
     }
-
-
-    private fun weekInit() {
-        initWeekPanelView()
-    }
-
 
     @SuppressLint("SimpleDateFormat")
     private fun initSectionView() {
@@ -181,7 +175,6 @@ class CourseTableView @JvmOverloads constructor(
         sectionView.removeAllViews()
         //TODO:cur session info high light
         val curTime = SimpleDateFormat("HH:mm").format(Date())
-
         for (i in 1..totalSession) {
             sectionView.addView(TextView(context).apply {
                 setTextColor(mainUiColor)
@@ -193,7 +186,6 @@ class CourseTableView @JvmOverloads constructor(
                     gravity = Gravity.CENTER
                 }
                 gravity = Gravity.CENTER
-
                 //resizeable the time info text size
                 val spannableString =
                     if (i < bTimeTable.timeInfoList.size) {
@@ -215,14 +207,11 @@ class CourseTableView @JvmOverloads constructor(
                             )
                         }catch (e:Exception){}
                     }
-
                 text = spannableString
                 gravity = Gravity.CENTER
                 hookSessionView(i, this)
             })
         }
-        //toggle the init flag
-        isSectionViewInit = true
     }
 
 
@@ -237,7 +226,6 @@ class CourseTableView @JvmOverloads constructor(
     @SuppressLint("SetTextI18n")
     private fun initWeekPanelView() {
         weekView.removeAllViews()
-
         //the first view is INVISIBLE at present
         weekView.addView(TextView(context).apply {
             text = "${TimeUtil.getWeekInfoString(curTermStartDate, curConfigWeek)}\n月"
@@ -250,10 +238,8 @@ class CourseTableView @JvmOverloads constructor(
                 }
             visibility = View.INVISIBLE
         })
-
         //due to the first day config, we should consider the offset of select index
         val curSelect = if (weekFirstDay == MON) TimeUtil.weekDay else (TimeUtil.weekDay + 1) % 7
-
         //init the week data
         for (i in 1..7) {
             weekView.addView(TextView(context).apply {
@@ -265,15 +251,16 @@ class CourseTableView @JvmOverloads constructor(
                     weight = 1F //divide by max day
                 }
                 gravity = Gravity.CENTER
-                setTextColor(if (i == curSelect) weekBarSelectWeekColor else mainUiColor)
-                background = if (i == curSelect) {
+                val isCurSelect = i == curSelect
+                setTextColor(if (isCurSelect) weekBarSelectWeekColor else mainUiColor)
+                background = if (isCurSelect) {
                     this.setPadding(0, 5, 0, 5)
                     weekBarSelectBackground
                 } else {
                     null
                 }
                 textSize = weekBarTextSize
-                paint.isFakeBoldText = i == curSelect
+                paint.isFakeBoldText = isCurSelect
 
                 //calculate the date
                 val curRealWeek = TimeUtil.getCurRealWeek(curTermStartDate)
@@ -334,15 +321,9 @@ class CourseTableView @JvmOverloads constructor(
                         setMargins(0, sessionSlotTopMargin, 0, 0)
                     }
                 }
-                //is non cur week
-                vFrame.background = Drawables.getDrawable(
-                    Color.parseColor("#FF333333"),
-                    20,
-                    3,
-                    mainUiColor
-                )
-                //use N tag normal item view
+                //use NORMAL tag mark the normal item view
                 vFrame.tag = "$NORMAL-$index-$i"
+                hookNormalItemView(vFrame, vFrame.tag as String, false)
 
                 val listener = fun() {
                     val status: Boolean
@@ -354,10 +335,10 @@ class CourseTableView @JvmOverloads constructor(
                         status = true
                     }
                     vFrame.background = Drawables.getDrawable(
-                        if (status) Color.parseColor("#B5B2CCC9")
-                        else Color.parseColor("#FF333333"),
+                        if (status) Color.parseColor(NORMAL_SELECT_COLOR)
+                        else Color.TRANSPARENT,
                         20,
-                        3,
+                        0,
                         mainUiColor
                     )
                     hookNormalItemView(vFrame, vFrame.tag as String, status)
@@ -368,13 +349,11 @@ class CourseTableView @JvmOverloads constructor(
                     //callback and cover the normal config
                     onItemClick(it, null, vFrame.tag as String, true)
                 }
-
                 vFrame.setOnLongClickListener {
                     listener()
                     onItemLongClick(it, null, vFrame.tag as String, true)
                     true
                 }
-                hookNormalItemView(vFrame, vFrame.tag as String, false)
                 //backup
                 normalItemReferenceMap[vFrame.tag as String] = vFrame
                 it.addView(vFrame)
@@ -405,10 +384,10 @@ class CourseTableView @JvmOverloads constructor(
                 val tagPrefix = if (bCourse.week.contains(curConfigWeek)) CUR_WEEK else NOT_CUR_WEEK
                 tag = "$tagPrefix-${bCourse.id}"
                 background = Drawables.getDrawable(
-                    if (isCurWeek(tagPrefix)) Color.RED else Color.GRAY,
-                    20,
-                    3,
-                    mainUiColor
+                    Color.parseColor(if (isCurWeek(tagPrefix)) bCourse.color else NOR_CUR_WEEK_COLOR),
+                    sessionSlotRadius,
+                    sessionSlotStrokeWidth,
+                    sessionSlotStrokeColor
                 )
 
                 //add the course info
