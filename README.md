@@ -1,5 +1,5 @@
 # CourseTableView_Kt  
-> CourseTableView Kotlin Version， for more interesting function
+> CourseTableView Kotlin Version， for more interesting functions
 
 ![](https://img.shields.io/github/license/Surine/CourseTableView_Kt)
 ![](https://img.shields.io/github/stars/Surine/CourseTableView_Kt)
