@@ -48,7 +48,7 @@ tools:context=".MainActivity">
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 **Step 4. load data**
-the init() is for the ui and click listener,and the load() is for courses data
+<br>the init() is for the ui and click listener,and the load() is for courses data
 ```
 val bTimeTable = BTimeTable(
         listOf(
@@ -143,9 +143,9 @@ fun load(
 
 Click Listener: We provide click listener and long press listener,and you can get the view,course information,the tag and other additional information.
 Tag is the value that marks the course grid type，
-> NORMAL-x-y  normal item with postion (x,y) <br>
-> CUR_WEEK-courseid  current week course  <br>
-> NOT_CUR_WEEK-courseid  not current week course <br>
+> NORMAL-x-y : normal item with postion (x,y) <br>
+> CUR_WEEK-courseid : current week course  <br>
+> NOT_CUR_WEEK-courseid : not current week course <br>
 
 
 ```
