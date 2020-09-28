@@ -68,7 +68,14 @@ val bTimeTable = BTimeTable(
 
 courseTableView.init {
      //change attrs value
-      //for click listener
+     hideSat = true
+     hideSun = true
+     
+    //for click listener
+    itemClicker { view, course, tag, normal ->
+        Toast.makeText(this@MainActivity, "click $tag, is $normal", Toast.LENGTH_SHORT)
+            .show()
+    }
   }.load(
       listOf(
           BCourse(
