@@ -120,7 +120,7 @@ class CourseTableView @JvmOverloads constructor(
         )
     }
 
-    //jump
+    //jump to %d week
     fun toWeek(curWeek: Int) {
         this.curConfigWeek = curWeek
         render()
