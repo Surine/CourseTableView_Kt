@@ -6,7 +6,7 @@
 ![](https://img.shields.io/badge/Kotlin-100%25-orange)
 
 ### Use
-Step 1. Add the JitPack repository to your build file
+**Step 1. Add the JitPack repository to your build file**
 ```
 allprojects {
   repositories {
@@ -15,7 +15,7 @@ allprojects {
   }
 }
 ```
-Step 2. Add the dependency
+**Step 2. Add the dependency**
 
 
 [![](https://jitpack.io/v/Surine/CourseTableView_Kt.svg)](https://jitpack.io/#Surine/CourseTableView_Kt)
@@ -25,7 +25,7 @@ dependencies {
 }
 ```
 
-Step 3. Add the view to your layout
+**Step 3. Add the view to your layout**
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,7 +47,7 @@ tools:context=".MainActivity">
   </cn.surine.coursetableview_kt.CourseTableView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
-Step 4. load data
+**Step 4. load data**
 the init() is for the ui and click listener,and the load() is for courses data
 ```
 val bTimeTable = BTimeTable(
