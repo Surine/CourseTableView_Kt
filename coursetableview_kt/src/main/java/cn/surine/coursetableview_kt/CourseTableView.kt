@@ -103,7 +103,7 @@ class CourseTableView @JvmOverloads constructor(
 
     private val dayPanelList = mutableListOf<LinearLayout>()
     private val normalItemReferenceMap = HashMap<String, View>()
-    private val normalSelectItemReferenceMap = HashMap<String, View>()
+    val normalSelectItemReferenceMap = HashMap<String, View>()
 
     init {
         LayoutInflater.from(context).inflate(R.layout.main_course_view, this)
