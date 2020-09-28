@@ -1,14 +1,18 @@
 # CourseTableView_Kt  
 > CourseTableView Kotlin Version， for more interesting function
 
+![](https://img.shields.io/github/license/Surine/CourseTableView_Kt)
+![](https://img.shields.io/github/stars/Surine/CourseTableView_Kt)
+![](https://img.shields.io/badge/Kotlin-100%25-orange)
+
 ### Use
 Step 1. Add the JitPack repository to your build file
 ```
 allprojects {
-repositories {
-...
-maven { url 'https://jitpack.io' }
-}
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
 }
 ```
 Step 2. Add the dependency
@@ -17,7 +21,7 @@ Step 2. Add the dependency
 [![](https://jitpack.io/v/Surine/CourseTableView_Kt.svg)](https://jitpack.io/#Surine/CourseTableView_Kt)
 ```
 dependencies {
-implementation 'com.github.Surine:CourseTableView_Kt:Tag'
+  implementation 'com.github.Surine:CourseTableView_Kt:Tag'
 }
 ```
 
@@ -31,16 +35,16 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".MainActivity">
 
-<cn.surine.coursetableview_kt.CourseTableView
-  android:id="@+id/courseTableView"
-  android:layout_width="match_parent"
-  android:layout_height="0dp"
-  app:layout_constraintBottom_toBottomOf="parent"
-  app:layout_constraintEnd_toStartOf="@+id/button"
-  app:layout_constraintStart_toStartOf="parent"
-  app:layout_constraintTop_toTopOf="parent">
+  <cn.surine.coursetableview_kt.CourseTableView
+    android:id="@+id/courseTableView"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/button"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-</cn.surine.coursetableview_kt.CourseTableView>
+  </cn.surine.coursetableview_kt.CourseTableView>
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 Step 4. load data
@@ -143,9 +147,9 @@ fun itemClicker(block: (view: View, courseInfo: BCourse?, tag: String, normalIte
     this.onItemClick = block
 }
 //long click
- fun itemLongClicker(block: (view: View, courseInfo: BCourse?, tag: String, normalItem: Boolean) -> Unit) {
-      this.onItemClick = block
-  }
+fun itemLongClicker(block: (view: View, courseInfo: BCourse?, tag: String, normalItem: Boolean) -> Unit) {
+    this.onItemClick = block
+}
 ```
 
 Hook Methods : In the process of rendering the ui, some views are given the ability to be modified，you can try to customize your advanced UI in these methods,
