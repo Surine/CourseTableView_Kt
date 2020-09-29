@@ -54,6 +54,8 @@ class CourseTableView @JvmOverloads constructor(
     private lateinit var curTermStartDate: String
     private lateinit var courseList: List<BCourse>
     private lateinit var bTimeTable: BTimeTable
+    private var curConfigWeek: Int = 1
+
     var totalSession = 12
         set(value) {
             //300: for more interesting functions
@@ -62,17 +64,14 @@ class CourseTableView @JvmOverloads constructor(
             }
             field = value
         }
-    private var curConfigWeek: Int = 1
     var totalWeek: Int = 30
     var timeBarWidth: Int = 60
     var isShowTimeBarNo = true
     var isShowTimeBarStartTime = true
     var isShowTimeBarEndTime = true
-    val mainUiColor = Color.BLACK
+    var mainUiColor = Color.BLACK
     var hideSat: Boolean = false
     var hideSun: Boolean = false
-    private var weekInfos = arrayOf("一", "二", "三", "四", "五", "六", "日")
-    private var weekInfos2 = arrayOf("日", "一", "二", "三", "四", "五", "六")
     var weekBarSelectBackground: Drawable? = null
     var weekBarSelectWeekColor = Color.BLUE
     var sessionTextSize = 12F
@@ -101,6 +100,8 @@ class CourseTableView @JvmOverloads constructor(
             }
         }
 
+    private var weekInfos = arrayOf("一", "二", "三", "四", "五", "六", "日")
+    private var weekInfos2 = arrayOf("日", "一", "二", "三", "四", "五", "六")
     private val dayPanelList = mutableListOf<LinearLayout>()
     private val normalItemReferenceMap = HashMap<String, View>()
     val normalSelectItemReferenceMap = HashMap<String, View>()
