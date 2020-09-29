@@ -10,8 +10,8 @@ data class BTimeTable(
     val timeInfoList: List<BTimeInfo>
 ) {
     data class BTimeInfo(
-        val sessionNo: Int = 1,
-        val startTime: String = "",
-        val endTime: String = ""
+        var sessionNo: Int = 1,
+        var startTime: String = "",
+        var endTime: String = ""
     )
 }
