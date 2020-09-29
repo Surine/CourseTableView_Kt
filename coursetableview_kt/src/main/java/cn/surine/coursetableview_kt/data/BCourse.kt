@@ -8,7 +8,7 @@ package cn.surine.coursetableview_kt.data
  */
 data class BCourse(
     val id: String,
-    var scheduleId: Int,
+    var scheduleId: Long,
     var name: String = "",
     var position: String = "",
     var teacher: String = "",
