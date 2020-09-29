@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 //            isShowTimeBarEndTime = true
 //            isShowNotCurWeekCourse = true
             itemClicker { view, course, tag, normal ->
+                course?.position = "sss"
                 Toast.makeText(this@MainActivity, "click $tag, is $normal", Toast.LENGTH_SHORT)
                     .show()
             }

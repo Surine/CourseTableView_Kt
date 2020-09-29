@@ -8,16 +8,16 @@ package cn.surine.coursetableview_kt.data
  */
 data class BCourse(
     val id: String,
-    val scheduleId: Int,
-    val name: String = "",
-    val position: String = "",
-    val teacher: String = "",
-    val day: Int = 1,
-    val startSection: Int,
-    val continueSession:Int,
-    val color: String,
-    val week:List<Int>,
-    val score:String
+    var scheduleId: Int,
+    var name: String = "",
+    var position: String = "",
+    var teacher: String = "",
+    var day: Int = 1,
+    var startSection: Int,
+    var continueSession:Int,
+    var color: String,
+    var week:List<Int>,
+    var score:String
 ){
     fun getSimpleName(): String? {
         return if (name.length > 6) {
