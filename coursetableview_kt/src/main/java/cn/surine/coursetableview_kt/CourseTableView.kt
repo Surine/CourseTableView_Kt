@@ -51,6 +51,7 @@ class CourseTableView @JvmOverloads constructor(
         const val NOR_CUR_WEEK_COLOR = "#8BBCBCBC"
     }
 
+    private var curRealWeek: Int = 1
     private lateinit var curTermStartDate: String
     private lateinit var courseList: List<BCourse>
     private lateinit var bTimeTable: BTimeTable
@@ -264,7 +265,7 @@ class CourseTableView @JvmOverloads constructor(
                 paint.isFakeBoldText = isCurSelect
 
                 //calculate the date
-                val curRealWeek = TimeUtil.getCurRealWeek(curTermStartDate)
+                curRealWeek = TimeUtil.getCurRealWeek(curTermStartDate)
                 val todayStr = TimeUtil.getDateBeforeOrAfter(
                     TimeUtil.getDate(),
                     number = i - curSelect - (curRealWeek - curConfigWeek) * 7
@@ -382,7 +383,7 @@ class CourseTableView @JvmOverloads constructor(
                 layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, realHeight).apply {
                     setMargins(0, sessionSlotTopMargin, 0, 0)
                 }
-                val tagPrefix = if (bCourse.week.contains(curConfigWeek)) CUR_WEEK else NOT_CUR_WEEK
+                val tagPrefix = if (bCourse.week.contains(curRealWeek)) CUR_WEEK else NOT_CUR_WEEK
                 tag = "$tagPrefix-${bCourse.id}"
                 background = Drawables.getDrawable(
                     Color.parseColor(if (isCurWeek(tagPrefix)) bCourse.color else NOR_CUR_WEEK_COLOR),
