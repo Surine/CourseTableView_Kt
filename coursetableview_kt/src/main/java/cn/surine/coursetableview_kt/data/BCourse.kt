@@ -14,11 +14,12 @@ data class BCourse(
     var teacher: String = "",
     var day: Int = 1,
     var startSection: Int,
-    var continueSession:Int,
+    var continueSession: Int,
     var color: String,
-    var week:List<Int>,
-    var score:String
-){
+    var week: List<Int>,
+    var score: String,
+    var memo: String = ""
+) {
     fun getSimpleName(): String? {
         return if (name.length > 6) {
             name.substring(0, 6) + "..."
